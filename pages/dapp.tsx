@@ -72,7 +72,7 @@ import {
                 ],
                 address: "0xb091A6d454DD4c160960277A5e6746029c974bfD",
                 functionName: "mint",
-                args: [1],
+                args: [BigInt(1)],
                 value: parseEther("0.01"),
               },
               {
