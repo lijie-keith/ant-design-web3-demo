@@ -98,12 +98,15 @@ import {
         config={config}
         chains={[Sepolia]}
         wallets={[MetaMask()]}
+        eip6963={{
+            autoAddInjectedWallets: true
+        }}
       >
-        <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
+        {/* <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
         <NFTCard
           address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9"
           tokenId={641}
-        />
+        /> */}
         <Connector>
           <ConnectButton />
         </Connector>

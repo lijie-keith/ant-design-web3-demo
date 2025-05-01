@@ -1,10 +1,26 @@
 import { parseEther } from "viem";
 import { Button, message } from "antd";
-import { http, useReadContract, useWriteContract, useWatchContractEvent } from "wagmi";
-import { Mainnet, WagmiWeb3ConfigProvider, MetaMask } from '@ant-design/web3-wagmi';
+import { http, useReadContract, useWriteContract, useWatchContractEvent, createConfig } from "wagmi";
+import { Mainnet, WagmiWeb3ConfigProvider, MetaMask, WalletConnect } from '@ant-design/web3-wagmi';
 import { Address, NFTCard, ConnectButton, Connector, useAccount } from "@ant-design/web3";
+import { injected, walletConnect } from "wagmi/connectors";
+import { mainnet } from "viem/chains";
 
-
+const config = createConfig({
+  chains : [mainnet],
+  transports : {
+    [mainnet.id]:http(),
+  },
+  connectors: [
+    injected({
+      target : "metaMask",
+    }),
+    walletConnect({
+      projectId:"c07c0051c2055890eade3556618e38a6",
+      showQrModal:false
+    })
+  ]
+})
 
 const CallTest = () => {
   const { account } = useAccount();
@@ -71,11 +87,11 @@ const CallTest = () => {
 export default function Web3() {
   return (
     <WagmiWeb3ConfigProvider
-      chains={[Mainnet]}
-      transports={{
-        [Mainnet.id]: http(),
+      config={config}
+      wallets={[MetaMask(), WalletConnect()]}
+      eip6963={{
+        autoAddInjectedWallets:true,
       }}
-      wallets={[MetaMask()]}
     >
       <Address format address="0xEcd0D12E21805803f70de03B72B1C162dB0898d9" />
       <NFTCard
