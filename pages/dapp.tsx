@@ -10,20 +10,22 @@ import {
     Sepolia,
     MetaMask,
     WagmiWeb3ConfigProvider,
-    Polygon
+    Polygon,
+    Hardhat,
   } from "@ant-design/web3-wagmi";
   import { Button, message } from "antd";
   import { parseEther } from "viem";
   import { createConfig, http, useReadContract, useWriteContract } from "wagmi";
-  import { sepolia, mainnet, polygon } from "wagmi/chains";
+  import { sepolia, mainnet, polygon, hardhat } from "wagmi/chains";
   import { injected } from "wagmi/connectors";
   
   const config = createConfig({
-    chains: [mainnet, sepolia,polygon],
+    chains: [mainnet, sepolia,polygon,hardhat],
     transports: {
       [mainnet.id]: http(),
       [sepolia.id]: http(),
       [polygon.id]: http(),
+      [hardhat.id]: http("http://127.0.0.1:8545")
     },
     connectors: [
       injected({
@@ -47,6 +49,11 @@ import {
       id:137,
       name: "Polygon",
       contractAddress: "0x418325c3979b7f8a17678ec2463a74355bdbe72c"
+    },
+    {
+      id:hardhat.id,
+      name: "Hardhat",
+      contractAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
     }
   ]
   
@@ -120,7 +127,7 @@ import {
     return (
       <WagmiWeb3ConfigProvider
         config={config}
-        chains={[Sepolia,Polygon]}
+        chains={[Sepolia,Polygon,Hardhat]}
         wallets={[MetaMask()]}
         eip6963={{
             autoAddInjectedWallets: true
